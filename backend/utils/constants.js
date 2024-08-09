@@ -3,6 +3,4 @@ const ROLE = {
   SELLER: 'seller',
 };
 
-module.exports = {
-  ROLE,
-};
+module.exports = { ROLE };

@@ -1,18 +1,19 @@
 'use strict';
 
 const { Model, DataTypes } = require('sequelize');
-const { ROLE } = require('../utils/constants');
 
 module.exports = (sequelize) => {
   class User extends Model {
-    static associate(models) {
-      User.hasMany(models.products);
-      User.hasOne(models.carts);
-    }
+    static associate(models) {}
   }
 
   User.init(
     {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -20,6 +21,7 @@ module.exports = (sequelize) => {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
       },
       password: {
         type: DataTypes.STRING,
@@ -28,11 +30,14 @@ module.exports = (sequelize) => {
       role: {
         type: DataTypes.ENUM(Object.values(ROLE)),
         allowNull: false,
+        defaultValue: 'buyer',
       },
     },
     {
       sequelize,
       modelName: 'User',
+      tableName: 'users',
+      timestamps: true,
     }
   );
 
