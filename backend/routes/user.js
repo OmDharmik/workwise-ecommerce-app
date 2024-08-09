@@ -1,10 +1,13 @@
-const { createUserSchema, userLoginSchema } = require('../validations/user');
-const { hashPassword } = require('../utils/passwordHash');
+const {
+  createUserSchema,
+  userLoginSchema,
+} = require('../validations/user.dto');
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const models = require('../models');
 const dotenv = require('dotenv');
+const { hashPassword, comparePassword } = require('../utils/passwordHash');
 dotenv.config();
 
 const router = express.Router();
@@ -65,8 +68,8 @@ router.post('/login', async (req, res) => {
 
     res.json({ status: true, token });
   } catch (error) {
-    const errorMsg = handleErrors(error);
-    res.status(400).json({ status: false, msg: errorMsg });
+    console.log(error);
+    res.status(400).json({ status: false, msg: error });
   }
 });
 
@@ -75,7 +78,10 @@ router.get('/profile', async (req, res) => {
     const userId = req.user.id;
     const user = await models.User.findById(userId);
     if (!user) {
-      throw new Error('User not found');
+      res.status(400).json({
+        status: false,
+        msg: 'User not found',
+      });
     }
     res.send({ status: true, user });
   } catch (error) {
@@ -97,7 +103,10 @@ router.put('/profile', async (req, res) => {
       { new: true }
     );
     if (!user) {
-      throw new Error('User not found');
+      res.status(400).json({
+        status: false,
+        msg: 'User not found',
+      });
     }
     res.send({ status: true, user });
   } catch (error) {

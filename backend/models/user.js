@@ -1,5 +1,5 @@
 'use strict';
-
+const { ROLE } = require('../utils/constants');
 const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
