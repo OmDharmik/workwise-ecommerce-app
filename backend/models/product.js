@@ -7,8 +7,10 @@ module.exports = (sequelize, DataTypes) => {
       Product.belongsTo(models.User, {
         foreignKey: 'userId',
       });
-      Product.belongsTo(models.Cart, {
-        foreignKey: 'cartId',
+      Product.belongsToMany(models.Cart, {
+        through: 'CartProducts',
+        as: 'carts',
+        foreignKey: 'productId',
       });
     }
   }
@@ -24,13 +26,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         references: {
           model: 'users',
-          key: 'id',
-        },
-      },
-      cartId: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: 'carts',
           key: 'id',
         },
       },

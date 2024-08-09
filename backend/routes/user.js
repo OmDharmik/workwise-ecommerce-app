@@ -28,7 +28,7 @@ router.post('/signup', async (req, res) => {
       { id: newUser.id, role: newUser.role },
       process.env.JWT_SECRET,
       {
-        expiresIn: '1h',
+        expiresIn: '24h',
       }
     );
 
@@ -62,7 +62,7 @@ router.post('/login', async (req, res) => {
       { id: user.id, role: user.role },
       process.env.JWT_SECRET,
       {
-        expiresIn: '1h',
+        expiresIn: '24h',
       }
     );
 

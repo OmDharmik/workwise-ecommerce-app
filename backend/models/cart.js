@@ -7,6 +7,13 @@ module.exports = (sequelize) => {
     static associate(models) {
       Cart.belongsTo(models.User, {
         foreignKey: 'userId',
+        as: 'user',
+        onDelete: 'CASCADE',
+      });
+      Cart.belongsToMany(models.Product, {
+        through: 'CartProducts',
+        as: 'products',
+        foreignKey: 'cartId',
       });
     }
   }
@@ -20,14 +27,11 @@ module.exports = (sequelize) => {
       },
       userId: {
         type: DataTypes.INTEGER,
+        allowNull: false,
         references: {
           model: 'users',
           key: 'id',
         },
-      },
-      quantity: {
-        type: DataTypes.INTEGER,
-        defaultValue: 1,
       },
       createdAt: {
         type: DataTypes.DATE,
@@ -43,6 +47,7 @@ module.exports = (sequelize) => {
     {
       sequelize,
       modelName: 'Cart',
+      tableName: 'carts',
       timestamps: true,
     }
   );
