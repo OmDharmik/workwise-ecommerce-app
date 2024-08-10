@@ -25,7 +25,11 @@ const SignUp = () => {
       const response = await axios.post(`${backendUrl}/api/user/signup`, form);
       if (response.data.status === true) {
         localStorage.setItem('token', response.data.token);
-        router.push('/');
+        if (form.role === 'seller') {
+          router.push('/seller/home');
+        } else {
+          router.push('/buyer/home');
+        }
       }
     } catch (error) {
       console.error('Error during sign up:', error);

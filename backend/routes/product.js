@@ -35,8 +35,28 @@ router.post('/create', authMiddleware, async (req, res) => {
 router.get('/', authMiddleware, async (req, res) => {
   try {
     const products = await models.Product.findAll({
+      attributes: [
+        'id',
+        'name',
+        'description',
+        'price',
+        'category',
+        'discount',
+      ],
+    });
+
+    res.json({ status: true, products });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ status: false, msg: error.message });
+  }
+});
+
+router.get('/name/:name', authMiddleware, async (req, res) => {
+  try {
+    const products = await models.Product.findAll({
       where: {
-        userId: req.user.id,
+        name: req.params.name,
       },
       attributes: [
         'id',
@@ -47,6 +67,17 @@ router.get('/', authMiddleware, async (req, res) => {
         'discount',
       ],
     });
+
+    res.json({ status: true, products });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ status: false, msg: error.message });
+  }
+});
+
+router.get('/:id', authMiddleware, async (req, res) => {
+  try {
+    const products = await models.Product.findByPk(req.params.id);
 
     res.json({ status: true, products });
   } catch (error) {
