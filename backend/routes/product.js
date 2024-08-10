@@ -7,6 +7,7 @@ const { Product } = require('../models');
 const { ROLE } = require('../utils/constants');
 const authMiddleware = require('../middleware');
 const models = require('../models');
+const { where } = require('sequelize');
 const router = express.Router();
 
 router.post('/create', authMiddleware, async (req, res) => {
@@ -35,6 +36,30 @@ router.post('/create', authMiddleware, async (req, res) => {
 router.get('/', authMiddleware, async (req, res) => {
   try {
     const products = await models.Product.findAll({
+      attributes: [
+        'id',
+        'name',
+        'description',
+        'price',
+        'category',
+        'discount',
+      ],
+    });
+
+    res.json({ status: true, products });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ status: false, msg: error.message });
+  }
+});
+
+router.get('/category/:id', authMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const products = await models.Product.findAll({
+      where: {
+        category: id,
+      },
       attributes: [
         'id',
         'name',

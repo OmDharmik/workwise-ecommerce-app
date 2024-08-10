@@ -32,7 +32,7 @@ const CartPage = () => {
           >
             <span>{product.name}</span>
             <span>
-              ${product.price} x {product.quantity}
+              Rs {product.price} x {product.quantity}
             </span>
             <button
               onClick={() => removeFromCart(product.id)}
@@ -43,18 +43,20 @@ const CartPage = () => {
           </li>
         ))}
       </ul>
-      <button
-        onClick={clearCart}
-        className="mt-4 bg-blue-500 text-white p-2 rounded-md"
-      >
-        Clear Cart
-      </button>
-      <Link
-        href="/checkout"
-        className="mt-4 bg-green-500 text-white p-2 rounded-md"
-      >
-        Proceed to Checkout
-      </Link>
+      <div className="flex">
+        <button
+          onClick={clearCart}
+          className="mt-4 bg-blue-500 text-white p-2 rounded-md mr-5"
+        >
+          Clear Cart
+        </button>
+        <Link
+          href="/checkout"
+          className="mt-4 bg-green-500 text-white p-2 rounded-md"
+        >
+          Proceed to Checkout
+        </Link>
+      </div>
     </div>
   );
 };
