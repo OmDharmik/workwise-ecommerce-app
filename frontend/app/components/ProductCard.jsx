@@ -1,17 +1,20 @@
+'use client';
+import { useCart } from '../../context/CartContext';
+
 const ProductCard = ({ product }) => {
-  console.log(product);
+  const { addToCart } = useCart();
+
   return (
-    <div className="flex flex-col">
-      <div className="bg-gray-300 rounded-md h-40 w-40"></div>
-      <div className="flex flex-col gap-2">
-        <div className="text-lg font-semibold">{product.name}</div>
-        <div className="text-xl font-semibold">Rs {product.price}</div>
-        <div>
-          <button className="bg-blue-500 text-white rounded-md p-2">
-            Add to Cart
-          </button>
-        </div>
-      </div>
+    <div className="border p-4 rounded-md">
+      <h2 className="text-xl font-semibold">{product.name}</h2>
+      <p>{product.description}</p>
+      <p className="font-bold">${product.price}</p>
+      <button
+        onClick={() => addToCart(product)}
+        className="mt-2 bg-blue-500 text-white p-2 rounded-md"
+      >
+        Add to Cart
+      </button>
     </div>
   );
 };
