@@ -1,6 +1,7 @@
 'use client';
 import axios from 'axios';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar';
 import ProductCard from '../../components/ProductCard';
@@ -8,6 +9,8 @@ import ProductCard from '../../components/ProductCard';
 const Home = () => {
   const [products, setProducts] = useState([]);
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const pathname = usePathname();
+  const isActive = pathname === '/buyer/home';
 
   const fetchProducts = async (query = '') => {
     try {
@@ -35,16 +38,18 @@ const Home = () => {
     <main>
       <Navbar fetchProducts={fetchProducts} />
       <div className="flex ">
-        <div className="flex flex-col bg-slate-400 h-screen min-w-40 text-center gap-4">
+        <div className="flex flex-col bg-slate-100 h-screen min-w-40 text-center gap-4 rounded-r-md">
           <Link
             href={'/buyer/home'}
-            className="mt-10 text-xl font-semibold cursor-pointer hover:text-white"
+            className={`flex justify-center text-center mt-10 py-5 text-xl font-semibold cursor-pointer hover:text-white rounded-r-md fit ${
+              isActive ? 'bg-blue-400' : 'bg-slate-500'
+            }`}
           >
             Home
           </Link>
           <Link
             href={'/buyer/category'}
-            className="text-xl font-semibold cursor-pointer hover:text-white"
+            className="text-xl py-5 font-semibold cursor-pointer hover:text-white flex justify-center text-center"
           >
             Category
           </Link>

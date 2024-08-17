@@ -4,13 +4,10 @@ import debounce from 'lodash/debounce';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useState } from 'react';
-import { useCart } from '../../context/CartContext';
 
-const Navbar = () => {
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+const SellerNavbar = () => {
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const { cart } = useCart();
 
   const debouncedSearch = useCallback(
     debounce(async (query) => {
@@ -57,7 +54,7 @@ const Navbar = () => {
           type="text"
           value={search}
           onChange={handleSearchChange}
-          className="bg-gray-300 rounded-md p-2 min-w-80 shadow-md"
+          className="bg-gray-300 rounded-md p-2 min-w-80 mr-20"
           placeholder="Search for products..."
         />
         {searchResults.length > 0 && (
@@ -74,13 +71,8 @@ const Navbar = () => {
           </div>
         )}
       </div>
-      <div className="flex gap-4 mr-5 font-bold cursor-pointer ">
-        <Link href="/cart" className="hover:bg-blue-500 rounded-md p-2">
-          Cart ({cart.length})
-        </Link>
-      </div>
     </div>
   );
 };
 
-export default Navbar;
+export default SellerNavbar;

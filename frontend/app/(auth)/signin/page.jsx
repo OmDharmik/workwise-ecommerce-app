@@ -1,5 +1,6 @@
 'use client';
 import axios from 'axios';
+import Image from 'next/image';
 import Link from 'next/link';
 const { useState } = require('react');
 const { useRouter } = require('next/navigation');
@@ -29,39 +30,52 @@ const SignIn = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen justify-center items-center">
-      <div className="max-h-fit flex flex-col justify-center item-center w-96">
-        <h1 className="heading text-center">Sign In</h1>
-        <form onSubmit={onSubmit}>
-          <div className="mt-5 flex flex-col gap-3">
-            <div className="mb-4 mt-5">
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                className="input"
-                placeholder="Email"
-              />
-            </div>
-            <div className="mb-4">
-              <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={handleChange}
-                className="input "
-                placeholder="Password"
-              />
-            </div>
-            <button type="submit" className="button hover:bg-blue-600">
-              Sign In
-            </button>
-            <Link href={'/signup'} className="text-right mr-5 hover:underline">
-              Create Account
-            </Link>
+    <div className="flex flex-col min-h-screen">
+      <div className="grid grid-cols-2">
+        <div className="flex flex-col justify-center min-h-screen items-center bg-gray-50">
+          <div className="flex flex-col justify-center items-center w-full">
+            <h1 className="heading text-center">Sign In</h1>
+            <form onSubmit={onSubmit} className="flex w-full justify-center">
+              <div className="mt-10 flex flex-col gap-7 w-8/12">
+                <input
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  className="input"
+                  placeholder="Email"
+                />
+                <input
+                  type="password"
+                  name="password"
+                  value={form.password}
+                  onChange={handleChange}
+                  className="input "
+                  placeholder="Password"
+                />
+                <button type="submit" className="button hover:bg-blue-600">
+                  Sign In
+                </button>
+                <Link
+                  href={'/signup'}
+                  className="text-right mr-2 hover:underline hover:text-blue-600 font-bold"
+                >
+                  Create Account
+                </Link>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
+        <div className="">
+          <div className="relative h-full w-full">
+            <Image
+              src="/login-image.jpg"
+              alt="signin"
+              layout="fill"
+              className="object-contain"
+            ></Image>
+          </div>
+        </div>
       </div>
     </div>
   );
