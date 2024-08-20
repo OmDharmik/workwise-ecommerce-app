@@ -1,5 +1,5 @@
+import CartProvider from '@/context/CartContext';
 import { Inter } from 'next/font/google';
-import { CartProvider } from '../context/CartContext';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });

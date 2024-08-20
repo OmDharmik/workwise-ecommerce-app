@@ -1,10 +1,10 @@
 'use client';
+import { useCart } from '@/context/CartContext';
 import axios from 'axios';
 import debounce from 'lodash/debounce';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useState } from 'react';
-import { useCart } from '../../context/CartContext';
 
 const Navbar = () => {
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
