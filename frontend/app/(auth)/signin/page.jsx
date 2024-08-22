@@ -15,7 +15,8 @@ const SignIn = () => {
       const response = await axios.post(`${backendUrl}/api/user/login`, form);
       if (response.data.status === true) {
         localStorage.setItem('token', response.data.token);
-        if (form.role === 'seller') {
+        console.log(form.role);
+        if (response.data.role === 'seller') {
           router.push('/seller/home');
         } else {
           router.push('/buyer/home');

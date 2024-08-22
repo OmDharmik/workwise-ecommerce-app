@@ -36,6 +36,9 @@ router.post('/create', authMiddleware, async (req, res) => {
 router.get('/', authMiddleware, async (req, res) => {
   try {
     const products = await models.Product.findAll({
+      where: {
+        userId: req.user.id,
+      },
       attributes: [
         'id',
         'name',

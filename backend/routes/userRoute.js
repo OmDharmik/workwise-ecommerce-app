@@ -66,7 +66,7 @@ router.post('/login', async (req, res) => {
       }
     );
 
-    res.json({ status: true, token });
+    res.json({ status: true, token, role: user.role });
   } catch (error) {
     console.log(error);
     res.status(400).json({ status: false, msg: error });

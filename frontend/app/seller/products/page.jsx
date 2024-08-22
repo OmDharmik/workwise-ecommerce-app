@@ -1,79 +1,69 @@
 'use client';
-import axios from 'axios';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import Navbar from '../../components/Navbar';
 
-const ProductsPage = () => {
+import SellerLeftSideBar from '@/app/components/SellerLeftSideBar';
+import SellerNavbar from '@/app/components/SellerNavbar';
+import axios from 'axios';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+const Products = () => {
+  const pathname = usePathname();
   const [products, setProducts] = useState([]);
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+
     const fetchProducts = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get(`${backendUrl}/api/product`, {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/product`,
+        {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        });
-        setProducts(response.data.products);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      }
+        }
+      );
+
+      const data = response?.data?.products;
+      setProducts(data);
     };
 
     fetchProducts();
   }, []);
 
-  const handleDelete = async (id) => {
-    try {
-      const token = localStorage.getItem('token');
-      await axios.delete(`${backendUrl}/api/product/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setProducts((prevProducts) =>
-        prevProducts.filter((product) => product.id !== id)
-      );
-    } catch (error) {
-      console.error('Error deleting product:', error);
-    }
-  };
-
   return (
-    <main>
-      <Navbar />
-      <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-4">Your Products</h1>
-        <ul>
-          {products.map((product) => (
-            <li
-              key={product.id}
-              className="flex justify-between items-center mb-4"
-            >
-              <span>{product.name}</span>
-              <div>
-                <Link
-                  href={`/seller/edit-product/${product.id}`}
-                  className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 mr-2"
-                >
-                  Edit
-                </Link>
-                <button
-                  onClick={() => handleDelete(product.id)}
-                  className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
-                >
-                  Delete
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+    <div>
+      <SellerNavbar />
+      <div className="flex flex-12">
+        <SellerLeftSideBar pathname={pathname} className="flex flex-2" />
+        <div className="h-screen w-full">
+          <div className="container mx-auto p-4">
+            <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
+              {products.map((product) => {
+                return (
+                  <div className="flex flex-col justify-center">
+                    <div
+                      key={product.id}
+                      className="bg-slate-200 flex flex-col items-center box-border h-60 w-60 p-4 border-4 rounded-md"
+                    >
+                      <div className="box-border h-48 w-48">
+                        <Image
+                          src={'/product-image.jpeg'}
+                          alt="product"
+                          layout="fill"
+                          className="object-contain"
+                        />
+                      </div>
+                      <div>{product.name}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
       </div>
-    </main>
+    </div>
   );
 };
-
-export default ProductsPage;
+export default Products;
