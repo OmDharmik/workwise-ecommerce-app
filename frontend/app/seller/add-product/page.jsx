@@ -1,9 +1,11 @@
 'use client';
 
 import SellerNavbar from '@/app/components/SellerNavbar';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 const AddProduct = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(null);
 
@@ -12,7 +14,6 @@ const AddProduct = () => {
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
 
-    // Convert numeric fields to numbers
     data.price = parseFloat(data.price);
     data.discount = parseFloat(data.discount);
 
@@ -51,6 +52,12 @@ const AddProduct = () => {
   return (
     <>
       <SellerNavbar />
+      <button
+        className="bg-slate-200 p-3 rounded-md m-5 hover:bg-red-400 transition ease-in-out delay-150 hover:scale-110 duration-300"
+        onClick={() => router.push('/seller/home')}
+      >
+        Back to Home
+      </button>
       <h1 className="flex justify-center font-bold text-4xl p-3">
         Add Product
       </h1>
