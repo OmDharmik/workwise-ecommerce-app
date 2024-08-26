@@ -10,7 +10,7 @@ const createProductSchema = z.object({
 
 const updateProductSchema = z.object({
   name: z.string().min(1).optional(),
-  description: z.string().min(10).optional(),
+  description: z.string().optional(),
   price: z.number().positive().optional(),
   stock: z.number().int().nonnegative().optional(),
   category: z.string().min(1).optional(),

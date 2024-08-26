@@ -114,12 +114,10 @@ router.get('/:id', authMiddleware, async (req, res) => {
   }
 });
 
-router.put('/:id', authMiddleware, async (req, res) => {
+router.put('/edit/:id', authMiddleware, async (req, res) => {
   try {
     const userInput = updateProductSchema.parse(req.body);
-
     const product = await models.Product.findByPk(req.params.id);
-
     if (!product) {
       return res.status(404).json({ status: false, msg: 'Product not found' });
     }
@@ -130,7 +128,6 @@ router.put('/:id', authMiddleware, async (req, res) => {
         msg: 'You can only update your own products',
       });
     }
-
     await product.update(userInput);
 
     res.json({ status: true, msg: 'Product updated successfully', product });

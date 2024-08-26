@@ -94,7 +94,9 @@ const Products = () => {
                     <div className="mt-2 text-center">{product.name}</div>
                     <div className="flex gap-5 p-2 mt-3">
                       <button
-                        onClick={() => router.push('/seller/edit')}
+                        onClick={() =>
+                          router.push(`/seller/edit/${product.id}`)
+                        }
                         className="bg-blue-400 p-2 rounded-md"
                       >
                         Edit

@@ -1,50 +1,35 @@
 'use client';
 
 import SellerNavbar from '@/app/components/SellerNavbar';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import axios from 'axios';
+import { useParams, useRouter } from 'next/navigation';
 
-const AddProduct = () => {
+const EditProduct = () => {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(null);
+  const params = useParams();
+  const id = params.id;
 
-  const handlerAddProduct = async (e) => {
+  const handleEditProduct = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
-
-    data.price = parseFloat(data.price);
-    data.discount = parseFloat(data.discount);
-
-    setLoading(true);
-    setSuccess(null);
+    data['price'] = parseFloat(data['price']);
+    data['discount'] = parseFloat(data['discount']);
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/product/create`,
+      await axios.put(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/product/edit/${id}`,
+        data,
         {
-          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(data),
         }
       );
-
-      const result = await response.json();
-      if (response.ok) {
-        setSuccess('Product added successfully!');
-        console.log(result);
-      } else {
-        console.error('Error:', result);
-      }
     } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setLoading(false);
+      console.log('Error:', error);
     }
   };
 
@@ -52,20 +37,20 @@ const AddProduct = () => {
     <>
       <SellerNavbar />
       <button
-        className="bg-slate-200 p-3 rounded-md m-5 hover:bg-red-400 transition ease-in-out delay-150 hover:scale-110 duration-300"
+        className="bg-slate-200 cursor:pointer p-3 rounded-md m-5 hover:bg-red-400 transition ease-in-out delay-150 hover:scale-110 duration-300"
         onClick={() => router.push('/seller/home')}
       >
         Back to Home
       </button>
       <h1 className="flex justify-center font-bold text-4xl p-3">
-        Add Product
+        Edit Product
       </h1>
       <div className="flex flex-col">
         <div className="h-1/2 bg-slate-200 mx-5 rounded-md mt-5">
           <h2 className="font-semibold text-xl relative m-5">
             Product Information
           </h2>
-          <form onSubmit={handlerAddProduct}>
+          <form onSubmit={handleEditProduct}>
             <div className="flex ">
               <div className="flex flex-col gap-5 mt-10 w-3/5 p-5">
                 <input
@@ -108,9 +93,8 @@ const AddProduct = () => {
                   type="submit"
                   className="bg-blue-400 p-3 rounded-md transition ease-in-out hover:bg-green-600 delay-150 hover:scale-110 duration-300"
                 >
-                  {loading ? 'Adding...' : 'Add Product'}
+                  Update Item
                 </button>
-                {success && <p className="text-green-500 mt-2">{success}</p>}
               </div>
             </div>
           </form>
@@ -120,4 +104,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default EditProduct;
