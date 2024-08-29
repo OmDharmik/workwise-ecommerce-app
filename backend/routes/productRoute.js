@@ -3,10 +3,10 @@ const {
   createProductSchema,
   updateProductSchema,
 } = require('../validations/product.dto');
-const { Product } = require('../models');
+const { Product } = require('../db/models');
 const { ROLE } = require('../utils/constants');
 const authMiddleware = require('../middleware');
-const models = require('../models');
+const models = require('../db/models');
 const { where } = require('sequelize');
 const router = express.Router();
 

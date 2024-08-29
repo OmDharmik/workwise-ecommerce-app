@@ -5,7 +5,7 @@ const {
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const models = require('../models');
+const models = require('../db/models');
 const dotenv = require('dotenv');
 const { hashPassword, comparePassword } = require('../utils/passwordHash');
 dotenv.config();

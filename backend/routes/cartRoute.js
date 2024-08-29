@@ -1,5 +1,5 @@
 const express = require('express');
-const { Cart, Product, CartProducts } = require('../models');
+const { Cart, Product, CartProducts } = require('../db/models');
 const authMiddleware = require('../middleware');
 const { ROLE } = require('../utils/constants');
 const router = express.Router();
